@@ -4,24 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Tab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #address-bar {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        #iframe-container {
+            width: 100%;
+            height: 90vh; /* Viewport height minus address bar */
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Proxy Using Fetch and iframe</h1>
-    <iframe id="proxyIframe" width="100%" height="500px"></iframe>
-    <script>
-        async function proxyRequest() {
-            const url = 'https://example.com';  // Replace with the target URL
-            const response = await fetch(url);
-            const text = await response.text();
-            
-            const iframe = document.getElementById('proxyIframe');
-            const doc = iframe.contentDocument || iframe.contentWindow.document;
-            doc.open();
-            doc.write(text);
-            doc.close();
-        }
+    <h1>Dev Proxy Browser</h1>
+    <input type="text" id="address-bar" placeholder="Enter a URL (e.g., https://example.com)" />
+    <button onclick="loadSite()">Go</button>
+    <br><br>
+    <iframe id="iframe-container"></iframe>
 
-        proxyRequest();
+    <script>
+        function loadSite() {
+            const url = document.getElementById("address-bar").value;
+
+            // Check if the URL starts with "http" or "https" (to avoid invalid input)
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                const iframe = document.getElementById("iframe-container");
+                iframe.src = url;
+            } else {
+                alert("Please enter a valid URL that starts with http:// or https://");
+            }
+        }
     </script>
 </body>
 </html>
